@@ -1,0 +1,42 @@
+version: "3.3" 
+services:
+  kimera:
+    image: yubao/kimera
+    # container_name: root_ros_noetic
+    build:
+        context: ..
+        dockerfile: ./docker/Dockerfile
+        args:
+            http_proxy: ${HTTP_PROXY}
+            https_proxy: ${HTTPS_PROXY}
+    # runtime: nvidia
+    stdin_open: true
+    tty: true
+    network_mode: host
+    privileged: true
+    command:
+        - xterm
+        # - lxterminal
+    environment:
+        - DISPLAY
+        - QT_X11_NO_MITSHM=1
+        - http_proxy=${HTTP_PROXY}
+        - https_proxy=${HTTPS_PROXY}
+    volumes:
+        - /tmp/.X11-unix:/tmp/.X11-unix:rw
+        - ~/.Xauthority:/home/ubuntu/.Xauthority
+        - /home/yubao/Data/Dataset:/home/ubuntu/Dataset
+        - ../Extern/Kimera-VIO:/home/ubuntu/Kimera-VIO
+        # - ubuntu18_cuda11-4-2:/root
+        # - /usr/lib/nvidia-cuda-toolkit:/usr/lib/nvidia-cuda-toolkit
+        # - ~/Project/docker/Extern:/root/Extern
+        # - ~/.vscode/extensions:/root/.vscode/extensions
+        # - ~/.vimrc:/root/.vimrc
+        # - ~/.vim:/root/.vim
+        # - ~/.tmux.conf:/root/.tmux.conf
+        # - kimera_vol:/home/ubuntu
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+# volumes:
+#     kimera_vol:
